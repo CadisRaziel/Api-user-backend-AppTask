@@ -1,0 +1,8 @@
+//aqui nessa pasta config vai ter varios arquivos que diz respeito a infraestrutura do nosso projeto backend
+por exemplo: conexão com db(banco de dados), configuração do "body-parse", configuração do "cors",
+middleware de autenticação para ver se o usuario tem se autenticado para passar para determinadas api's(passport),
+rotas,.
+
+
+
+

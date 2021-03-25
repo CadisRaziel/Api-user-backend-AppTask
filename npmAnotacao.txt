@@ -1,0 +1,74 @@
+iniciando o backend
+
+//========================
+body-parse = interpreta valor textual, converte pra json se vir json, se submeter um formulario vai interpreta a forma que o formulario codifica os dados e converte para objetos
+
+cors = para deixar a api acessivel de outras origens
+consign = biblioteca para compartilha os dados entre os modulos da aplicação
+
+npm init
+npm i -s express body-parser cors consign
+
+//========================
+parte de segurança
+passport = autenticação exemplo autenticar com o google, autenticar com o facebook, autenticar com o twitter
+npm i -s bcrypt-nodejs jwt-simple passport passport-jwt
+
+
+//========================
+parte de acesso a banco de dados
+pg = postgree
+npm i -s knex pg
+
+
+//========================
+parte de datas
+npm i -s moment
+
+
+//========================
+parte do nodemon que fica recarregando a aplicação sempre que a uma mudança, se tiver erro a aplicação nao sai ai ele fica restartando e mostrando o erro 
+npm i --save-dev nodemon
+
+
+
+//========================
+Bonus
+podemos usar o "pm2"
+ele faz um gerenciamento de processos tipo nodemon porém ele mostra o que esta rodando (tem monitoramento de memoria, de processaor, o consumo, quantas vezes a aplicação caiu e teve que ser reiniciada pelo pm2 
+resumindo ele faz a mesma função que o nodemon porém mais detallhado (https://pm2.keymetrics.io/)
+
+
+
+//eu instalei todas dependencias porém eu optei por copiar o do projeto original por conta das incompatibilidades das versoes
+
+
+//packge.json do curso \/ (copie ele)
+{
+  "name": "tasks-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon"
+  },
+  "keywords": [],
+  "author": "Vitor Brussolo Zerbato",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "1.19.0",
+    "consign": "0.1.6",
+    "cors": "2.8.5",
+    "express": "4.17.1",
+    "jwt-simple": "0.5.6",
+    "knex": "0.20.7",
+    "moment": "2.24.0",
+    "passport": "0.4.1",
+    "passport-jwt": "4.0.0",
+    "pg": "7.17.0"
+  },
+  "devDependencies": {
+    "nodemon": "2.0.2"
+  }
+}

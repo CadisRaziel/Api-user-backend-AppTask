@@ -1,0 +1,192 @@
+conectando ao banco de dados postgres 
+//postgres banco de dados relacional, que tem schema ou seja: voce precisa criar as tabelas, criar as colunas, criar os relacionamentos
+
+entrando no postgres: sudo -u postgres psql (senha rhythms)
+/l = ve os bancos criados
+\q = sai dos bancos criados
+
+CREATE DATABASE nomeDaDB;
+depois coloque \l para ver se o nome esta criado certinho
+
+entrando na database criada
+\c nomeDaDB
+vai aparecer essa mensagem: "You are now connected to database "tasks" as user "postgres".
+
+para listar as tabelas criadas(quando estiver dentro da db que voce criou coloque: \dt para listar as tabelas criadas 
+
+para sair é só colocar \q
+
+a tabela vamos criar no vscode(na pasta do projeto)
+
+"precisamos instalar o knex globalmente"(sudo npm i knex -g) na pasta do projeto e no terminal do vscode
+
+para iniciar o knex, no terminal digite: knex init
+ele vai criar uma pasta chamada "knexfile.js" e dentro desse arquivo tem as configurações necessarias para conectar com a db
+
+o arquivo tem isso dentro \/
+// Update with your config settings.
+
+module.exports = {
+
+  development: {
+    client: 'sqlite3',
+    connection: {
+      filename: './dev.sqlite3'
+    }
+  },
+
+  staging: {
+    client: 'postgresql',
+    connection: {
+      database: 'my_db',
+      user:     'username',
+      password: 'password'
+    },
+    pool: {
+      min: 2,
+      max: 10
+    },
+    migrations: {
+      tableName: 'knex_migrations'
+    }
+  },
+
+  production: {
+    client: 'postgresql',
+    connection: {
+      database: 'my_db',
+      user:     'username',
+      password: 'password'
+    },
+    pool: {
+      min: 2,
+      max: 10
+    },
+    migrations: {
+      tableName: 'knex_migrations'
+    }
+  }
+
+};
+
+
+nos vamos fazer essas alterações inicialmente \/
+
+module.exports = {
+
+    client: 'postgresql',
+    connection: {
+      database: 'my_db',
+      user:     'username',
+      password: 'password'
+    },
+    pool: {
+      min: 2,
+      max: 10
+    },
+    migrations: {
+      tableName: 'knex_migrations'
+    } 
+};
+
+agora vamos colocar nossos dados \/
+
+module.exports = {
+
+    client: 'postgresql',
+    connection: {
+      database: 'tasks', //=> nome da tabela
+      user:     'vihhstx',
+      password: 'rhythms'
+    },
+    pool: {
+      min: 2,
+      max: 10
+    },
+    migrations: {
+      tableName: 'knex_migrations'
+    } 
+};
+
+
+//criando migrations
+const config = require('../knexfile.js')
+const knex = require('knex')(config)
+
+knex.migrate.latest([config])
+module.exports = knex
+
+(knex migrate:make nome_da_tabela)
+no terminal digite: knex migrate:make create_table_users
+com isso ele vai criar uma pasta "20210325030845_create_table_users.js"
+
+knex migrate:make create_table_tasks
+com isso ele vai criar uma pasta "20210325031109_create_table_tasks.js"
+
+
+definição de migrations:
+"Neste contexto específico, migration é a definição que se dá ao gerenciamento de mudanças incrementais
+e reversíveis em esquemas (estrutura) de banco de dados. 
+Isso permite que seja possível ter um controle "das versões" do banco de dados.
+As migrations são executadas sempre que for necessário atualizar a estrutura do banco ou reverter
+as alterações para uma migration antiga.
+Não necessariamente cada migration é uma atualização no banco de dados,
+a forma mais comum é uma atualização fazer uso de várias migrations.
+É algo muito usado no desenvolvimento de software ágil, 
+onde geralmente o desenvolvimento da aplicação é feito em conjunto com um banco de dados que está em construção.
+Assim, a estrutura da base de dados vai sendo alterada em conjunto com o desenvolvimento."
+
+ou sao arquivos do modulo do node, que tem 2 funções
+exports.up = tudo que fazemos no up é disfeito a partir do down
+exports.down
+ 
+ou seja eu crio uma tabela no UP e se eu quiser excluir eu uso o DOWN
+PORÉM PODEMOS ALTERAR A ORDEM PODEMOS CRIAR NO DOWN E EXCLUIR NO UP 
+
+RESUMINDO MIGRATIONS: é uma sequencia de chamadas para que voce consiga construir o seu banco de dados,
+ou seja voce vai fazer uma migrations para ir para ultima migrations ele vai executando varias funções UP 
+e chamando varias migrations nós vamos construindo nosso database
+
+PORQUE È SEPARADO EM VARIOS ARQUIVOS: eventualmente podemos querer voltar alguma versão do banco de dados,
+com migrations conseguimos construir todos os passos necessarios que o database passou para chegar na versão atual,
+fica tipo um historico como o commit do git em que o database foi evoluindo
+
+
+//criando a tabela nas migrations
+começamos pela create_table_users
+
+exports.up = function(knex) {
+  return knex.schema.createTable('users', table => {
+      table.increments('id').primary() //primary = chave primaria
+      table.string('name').notNull()
+      table.string('email').notNull().unique() //unique não aceita duplicidade, será um unico email
+      table.string('password').notNull()
+  })
+};
+
+exports.down = function(knex) {
+    return knex.schema.dropTable('users')
+};
+
+
+//=================================
+//criando na create_table_tasks
+
+
+exports.up = function(knex) {
+  return knex.schema.createTable('tasks', table => {
+      table.increments('id').primary()
+      table.string('desc').notNUll()
+      table.datetime('estimateAt')
+      table.datetime('doneAt')
+      table.integer('userId').references('id').inTable('users').notNUll() //integer = numero inteiro, references('id').inTable('users') para fazer referencia com a tabela users
+  })
+};
+
+exports.down = function(knex) {
+    return knex.schema.dropTable('tasks')
+};
+
+
+e depois no terminal digite: knex migrate:latest
+para criar as migrations (tem que aparecer isso Batch 1 run: 2 migrations)
