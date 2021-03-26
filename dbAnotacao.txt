@@ -109,12 +109,14 @@ module.exports = {
 };
 
 
-//criando migrations
+//criando migrations ( para isso crie um modulo dentro de 'config' chamado 'db.js')
+dentro de db.js \/
 const config = require('../knexfile.js')
 const knex = require('knex')(config)
 
 knex.migrate.latest([config])
 module.exports = knex
+//========================
 
 (knex migrate:make nome_da_tabela)
 no terminal digite: knex migrate:make create_table_users
@@ -190,3 +192,14 @@ exports.down = function(knex) {
 
 e depois no terminal digite: knex migrate:latest
 para criar as migrations (tem que aparecer isso Batch 1 run: 2 migrations)
+
+e para conferir se realmente foram geradas, no terminal do vscode digite: sudo -u postgres psql (coloque a senha) 
+e depois coloque: \c tasks e depois \dt
+depoos de \q para sair
+e novamente digite no terminal do vscode: knex migrate:latest
+tem que aparecer: Already up to date (para saber se ja esta atualizado)
+
+caso eu queria excluir as tabelas que eu criei eu digito: knex migrate:rollback
+
+
+PARA ENTRAR NO postgres PELO TERMINAL: sudo -u postgres psql
