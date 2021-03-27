@@ -2,7 +2,7 @@
 
 
 
-## :school_satchel: Aprendizados API-backend
+## :school_satchel: Aprendizados API-backend 
 - Express,
 - PSQL,
 - Middlewares e DB com Knex,
@@ -22,7 +22,8 @@
 - Utilizar o moment,
 - Nodemon
 
-Npm's
+
+Npm's (Esse projeto foi desenvolvido com as seguintes bibliotecas:)
 - npm init,
 - npm i -s express body-parser cors consign,
 - npm i -s bcrypt-nodejs jwt-simple passport passport-jwt,
