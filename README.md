@@ -23,7 +23,7 @@
 - Nodemon
 
 
-## :school_satchel: Npm's (Esse projeto foi desenvolvido com as seguintes bibliotecas:)
+## :school_satchel: Npm's, esse projeto foi desenvolvido com as seguintes bibliotecas:
 - npm init,
 - npm i -s express body-parser cors consign,
 - npm i -s bcrypt-nodejs jwt-simple passport passport-jwt,
