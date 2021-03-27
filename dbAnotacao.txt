@@ -203,3 +203,7 @@ caso eu queria excluir as tabelas que eu criei eu digito: knex migrate:rollback
 
 
 PARA ENTRAR NO postgres PELO TERMINAL: sudo -u postgres psql
+
+
+estava: "knex": "0.15.2"
+atualizado para: "knex": "0.20.7"

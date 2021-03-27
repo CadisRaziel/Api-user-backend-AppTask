@@ -9,14 +9,15 @@ module.exports = app => {
             return res.status(400).send('Dados incompletos')
         }
 
+        //para que não der erro se o usuario colocar o email em maiuscula ou minuscula
         const user = await app.db('users')
-            .where({ email: req.body.email })
+            .whereRaw("LOWER(email) = LOWER(?)", req.body.email)
             .first()
 
         if (user) {
             bcrypt.compare(req.body.password, user.password, (err, isMatch) => {
                 if (err || !isMatch) {
-                    return res.status(401).send()
+                    return res.status(401).send('A senha informada é inválida')
                 } //se a senha que ele colocar nao for igual a senha de login manda um erro 401 dizendo não autorizado
 
 
